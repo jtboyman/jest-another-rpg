@@ -3,7 +3,6 @@ jest.mock('../lib/Potion');
 //if you console.log(new Potion) it will make the mocked potion
 
 const Player = require('../lib/Player');
-const { expect } = require('@jest/globals');
 
 test('cerates a player object', () => {
     const player = new Player('Dave');
@@ -15,4 +14,23 @@ test('cerates a player object', () => {
     expect(player.inventory).toEqual(
         expect.arrayContaining([expect.any(Object)])
     );
+});
+
+test("gets player's stats an as object", () => {
+    const player = new Player('Dave');
+
+    expect(player.getStats()).toHaveProperty('potions');
+    expect(player.getStats()).toHaveProperty('health');
+    expect(player.getStats()).toHaveProperty('strength');
+    expect(player.getStats()).toHaveProperty('agility');
+});
+
+test("gets inventory from player or returns false", () => {
+    const player = new Player('Dave');
+
+    expect(player.getInventory()).toEqual(expect.any(Array));
+
+    player.inventory = []; //when there are no items in inventory
+
+    expect(player.getInventory()).toEqual(false);
 });
